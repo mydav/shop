@@ -10,6 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  */
@@ -18,3 +19,7 @@
 
  input[type=submit] {@extend .btn;}
  img {@extend .img-rounded; width: 100px; height:80px;}
+
+.list-group {
+  margin-left: 0px;
+}

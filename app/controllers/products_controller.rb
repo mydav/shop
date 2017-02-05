@@ -1,5 +1,14 @@
 class ProductsController < ApplicationController
+  before_action :authorize
   before_action :is_admin?
+
+
+  protected
+   def authorize
+       unless User.find_by(id: session[:user_id])
+       redirect_to main_app.root_path, notice: "Please sign in"
+   end
+  end
 
   def is_admin?
     redirect_to main_app.root_path unless current_user.admin == true

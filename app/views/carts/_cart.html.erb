@@ -1,0 +1,12 @@
+<h2>Your Cart</h2>
+<ul class="list-group">
+ <%= render(cart.line_items) %>
+
+  <li class="list-group-item">
+    Total<span class="badge"><%= number_to_currency(cart.total_price) %></span>
+  </li>
+
+
+</ul>
+</br>
+<%= button_to 'Empty cart', cart, method: :delete, data: { confirm: 'Are you sure?' } %>
