@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   before_action :authorize
   before_action :is_admin?
-
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   protected
    def authorize
