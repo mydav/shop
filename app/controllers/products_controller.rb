@@ -1,17 +1,13 @@
 class ProductsController < ApplicationController
-  before_action :authorize
   before_action :is_admin?
+  #before_action :authorize
+
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
-  protected
-   def authorize
-       unless User.find_by(id: session[:user_id])
-       redirect_to main_app.root_path, notice: "Please sign in"
-   end
-  end
+
 
   def is_admin?
-    redirect_to main_app.root_path unless current_user.admin == true
+    redirect_to main_app.root_path unless current_user.admin == true || user_signed_in?
   end
 
   # GET /products
@@ -84,4 +80,10 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:title, :description, :image_url, :price)
     end
+  # protected
+  #  def authorize
+  #      unless User.find_by(id: session[:user_id])
+  #      redirect_to main_app.root_path, notice: "Please sign in"
+  #  end
+  # end
 end
