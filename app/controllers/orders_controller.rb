@@ -37,21 +37,40 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = current_user.orders.build(order_params)
-    @order.add_line_items_from_cart(@cart)
+    if current_user == nil
+        @order = Order.new(order_params)
+        @order.add_line_items_from_cart(@cart)
 
-    respond_to do |format|
-      if @order.save
-        Cart.destroy(session[:cart_id])
-        session[:cart_id] = nil
+        respond_to do |format|
+          if @order.save
+            Cart.destroy(session[:cart_id])
+            session[:cart_id] = nil
 
-        format.html { redirect_to main_app.root_path, notice: 'Order was successfully created.' }
-        format.json { render :show, status: :created, location: @order }
+            format.html { redirect_to main_app.root_path, notice: 'Order was successfully created.' }
+            format.json { render :show, status: :created, location: @order }
+          else
+            @cart = current_cart
+            format.html { render :new }
+            format.json { render json: @order.errors, status: :unprocessable_entity }
+          end
+        end
       else
-        @cart = current_cart
-        format.html { render :new }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
+          @order = current_user.orders.build(order_params)
+          @order.add_line_items_from_cart(@cart)
+
+          respond_to do |format|
+            if @order.save
+              Cart.destroy(session[:cart_id])
+              session[:cart_id] = nil
+
+              format.html { redirect_to main_app.root_path, notice: 'Order was successfully created.' }
+              format.json { render :show, status: :created, location: @order }
+            else
+              @cart = current_cart
+              format.html { render :new }
+              format.json { render json: @order.errors, status: :unprocessable_entity }
+            end
+          end
     end
   end
 
