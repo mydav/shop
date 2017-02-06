@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   has_many :line_items, dependent: :destroy
+  has_one :user
 
 
   ORDER_STATUS = [ "Unconfirmed", "Confirmed" ]

@@ -3,16 +3,21 @@ class OrdersController < ApplicationController
   before_action :set_cart, only: [:new, :create]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
+
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    if current_user == nil
+      redirect_to main_app.root_path
+      else
+        @orders = current_user.orders
+    end
   end
 
   # GET /orders/1
   # GET /orders/1.json
   def show
-
+    current_user.orders.find(order_id)
   end
 
   # GET /orders/new
@@ -32,7 +37,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+    @order = current_user.orders.build(order_params)
     @order.add_line_items_from_cart(@cart)
 
     respond_to do |format|

@@ -2,19 +2,35 @@
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <%= link_to "HOME", root_path, class: "navbar-brand" %>
+      <%= link_to "Syndishop", root_path, class: "navbar-brand" %>
 
     </div>
     <ul class="nav navbar-nav navbar-right">
+
+
+
+        <% if user_signed_in? && current_user.admin? %>
+        <li>
+          <%= link_to "My orders", orders_path %>
+        </li>
         <li>
           <%= link_to "Products", products_path %>
         </li>
-        <% if user_signed_in? %>
         <li>
           <%= link_to "Admin", rails_admin_path %>
         </li>
         <li>
-          <%= link_to "Edit", edit_user_registration_path %>
+          <%= link_to "Edit profile", edit_user_registration_path %>
+        </li>
+        <li>
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+        </li>
+        <% elsif user_signed_in? %>
+        <li>
+          <%= link_to "My orders", orders_path %>
+        </li>
+        <li>
+          <%= link_to "Edit profile", edit_user_registration_path %>
         </li>
         <li>
           <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
