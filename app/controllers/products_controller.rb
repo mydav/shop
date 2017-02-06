@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
 
 
   def is_admin?
-    redirect_to main_app.root_path unless current_user.admin == true || user_signed_in?
+    redirect_to main_app.root_path unless current_user.admin == true
   end
 
   # GET /products
